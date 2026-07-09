@@ -41,14 +41,15 @@ class BLACK_BOX:                                     # INPUT form               
         return reduced_row_echelon_matr # argument_matrix
     def final_solution_builder(self):
         self.arguments = self.gaussian_matr_builder()
-        row, col = len(self.arguments[0]), len(self.arguments)
+        row, col = len(self.arguments[0]), len(self.arguments) # 
         self.solutions = [[None for _ in range(col)] for _ in range(row)]
-        for i in range(col):
+        for i in range(col): # 
             elimi_matr = self.gauss_elim(self.arguments[i])
             for j in range(len(elimi_matr)):
                 self.solutions[j][i] = elimi_matr[j][-1]
         return self.solutions
     def transform(self, new_input):
-        self.new_output = self.matrix_operator.matrix_multiply(new_input, self.final_solution_builder())
+        transform_matr = self.final_solution_builder()
+        self.new_output = self.matrix_operator.matrix_multiply(new_input, transform_matr)
         return self.new_output
     

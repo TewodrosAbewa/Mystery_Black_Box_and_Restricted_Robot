@@ -21,20 +21,19 @@ class Robot:
     
     def movement_generator(self, target_position):
         constants = self.find_constants(target_position)
-        self.movement = [['zero_coord']]
+        self.movement = [[0 for i in target_position]]
         for i in range(len(self.rules)): # 0, 1, 2
             if i == 0:
                 current = self.list_oper.generate_sequence_list(self.rules[i], constants[i])
             else:
-                current = self.list_oper.element_wise_addition(self.list_oper.generate_sequence_list(self.rules[i], constants[i]), self.movement[-1])
+                current = [self.list_oper.element_wise_addition(self.list_oper.generate_sequence_list(self.rules[i], constants[i])[k], self.movement[-1]) for k in range(constants[i])]
 
             self.movement.append(j for j in current) # [[a], [2a], [3c], [3c+1d], [3c+2d], [3c+3d]]
+        fir_mov = 0
+        for k in range(len(self.movement)):
+            if k==len(self.movement) - 1:
+                break
+            print(f"I am Robot_X and 'm going from {self.movement[fir_mov]} to ->{self.movement[fir_mov+1]}")
+            fir_mov = k+1
 
-        # for k in range(len(self.movement)):
-        #     if k ==0:
-        #         print(f"I am Robot_X and 'm going from {self.movement[k]} to ->{self.movement[k+1]}")
-        #     elif k==len(self.movement) - 1:
-        #         break
-        #     else:
-        #         print(f"  ............................ -> {self.movement[k+1]}")
         return self.movement

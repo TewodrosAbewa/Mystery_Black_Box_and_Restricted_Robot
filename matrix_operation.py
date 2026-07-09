@@ -9,7 +9,10 @@ class Matrix_Operation:
         self.prod = [[None for _ in range(col)] for _ in range(row)]
         for i in range(row):
             for j in range(col):
-                self.prod[i][j] = sum([A[i][k] * int(B[k][j]) for k in range(len(B))])
+                self.prod[i][j] = sum([
+                    (A[i][k] if isinstance(A[i][k], (int, float)) else A[i][k][0]) * 
+                    (B[k][j] if isinstance(B[k][j], (int, float)) else B[k][j][0]) 
+                    for k in range(len(B))])
         return self.prod
     
 
@@ -25,7 +28,7 @@ class Matrix_Operation:
     def make_diago_elem_one(self, matrix_A):
         for i in range(len(matrix_A)):
             matrix_A[i] = self.list_oper.multiply_by_constant(matrix_A[i], 1/(matrix_A[i][i]))
-            new_matrix = self.matr_oper.matrix_copy(matrix_A)
+            new_matrix = self.matrix_copy(matrix_A)
         return new_matrix
     def matrix_transpose(self, matrix_A):
         row, col = len(matrix_A), len(matrix_A[0])
